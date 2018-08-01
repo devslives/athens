@@ -15,7 +15,7 @@ env:
     - MINIO_SECRET_KEY=minio123
     - ATHENS_MONGO_STORAGE_URL=mongodb://127.0.0.1:27017
     - CODE_COV=1
-    - GO_BINARY_PATH=$(which vgo)
+    - GO_BINARY_PATH=vgo
     - TMPDIR=/tmp/
 before_script:
   - make setup-dev-env
@@ -24,6 +24,7 @@ before_script:
   - buffalo db create
   - buffalo db migrate up
 script:
+  - which vgo
   - make verify test-unit
 after_success:
   - if [ "${CODE_COV}" == "1" ]; then
