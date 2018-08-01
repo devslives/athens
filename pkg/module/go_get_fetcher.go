@@ -19,11 +19,15 @@ type goGetFetcher struct {
 }
 
 // NewGoGetFetcher creates fetcher which uses go get tool to fetch modules
-func NewGoGetFetcher(goBinaryName string, fs afero.Fs) Fetcher {
+func NewGoGetFetcher(goBinaryName string, fs afero.Fs) (Fetcher, error) {
+	_, err := os.Stat(goBinaryName)
+	if err != nil {
+		return nil, err
+	}
 	return &goGetFetcher{
 		fs:           fs,
 		goBinaryName: goBinaryName,
-	}
+	}, nil
 }
 
 // Fetch downloads the sources and returns path where it can be found. Make sure to call Clear
